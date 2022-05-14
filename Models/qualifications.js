@@ -3,7 +3,7 @@ const mongoose = require ('mongoose');
 const qualificationSchema = new mongoose.Schema({
     qualificationname:{type:String , required:true, unique:false},
     date:{type:String},
-    matricule:{type:String , required:true, unique:true},
+    matricule:{type:String , required:true, unique:false},
     c:{type:Number , required:true, unique:false},
    b:{type:Number , required:true, unique:false}, 
     p:{type:Number , required:true, unique:false},
