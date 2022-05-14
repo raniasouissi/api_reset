@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../models/User');
+const qualification=require('../Models/qualifications');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const  sendEmail  = require('../Mailers/nodeMailer');
@@ -96,6 +97,58 @@ router.put('/reset-password', async (req,res)=> {
         })
     }
 });
+router.post("/quali", async (req , res ) => {
+
+    // check if qualification is already exist in databse
+    const quali= await qualification.findOne({matricule:req.body.matricule})
+    if(quali) return res.status(500).send('matricule already exists')
+   
+    const mat = new qualification({
+        qualificationname:req.body.qualificationname,
+        date:req.body.date,
+
+        matricule: req.body.matricule,
+        c: req.body.c,
+        b: req.body.b,
+        p: req.body.p,
+        m: req.body.m,
+        ch: req.body.ch,
+        g: req.body.g,
+        ba: req.body.ba,
+        ma: req.body.ma,
+        a: req.body.a,
+        o: req.body.o,
+       po: req.body.po,
+       r: req.body.r,
+       ro: req.body.ro,
+       pr: req.body.pr,
+       pou: req.body.pou,
+    });
+    try {
+        const savedqualif = await mat.save()
+        res.status(201).json(savedqualif)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+});
+
+ router.get("/quali", async (req , res ) => {
+        qualification.find().then(
+        (result )=>{
+        res.status(200).json(result)
+        } )
+        });
+
+        router.get("/quali/:qualificationname/:date", async (req , res,next ) => {
+            const qualificationname=req.params.qualificationname;
+	        const date=req.params.date;
+            qualification.find({qualificationname:qualificationname,date : date}).select("matricule c b p m ch g ba ma a o po r ro pr pou").then(
+            (result )=>{
+            res.status(200).json(result)
+            } 
+            )
+            });
+
 
 
 module.exports = router 
