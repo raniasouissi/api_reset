@@ -139,7 +139,7 @@ router.post("/quali", async (req , res ) => {
         } )
         });
 
-        router.get("/quali/:qualificationname/:date", async (req , res,next ) => {
+  router.get("/quali/:qualificationname/:date", async (req , res,next ) => {
             const qualificationname=req.params.qualificationname;
 	        const date=req.params.date;
             qualification.find({qualificationname:qualificationname,date : date}).select("matricule c b p m ch g ba ma a o po r ro pr pou").then(
