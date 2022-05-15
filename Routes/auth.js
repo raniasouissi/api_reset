@@ -98,9 +98,12 @@ router.put('/reset-password', async (req,res)=> {
     }
 });
 router.post("/quali", async (req , res ) => {
+    var today = new Date();
+
+    var date = today.getDate()+''+(today.getMonth()+1)+''+today.getFullYear();
 
     // check if qualification is already exist in databse
-    const quali= await qualification.findOne({matricule:req.body.matricule})
+    const quali= await qualification.findOne({matricule:req.body.matricule,date:date})
     if(quali) return res.status(500).send('matricule already exists')
    
     const mat = new qualification({
